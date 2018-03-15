@@ -1,0 +1,91 @@
+#maincontent {
+  display:flex;
+  flex-wrap: wrap;
+}
+
+#map-container {
+  width: 100%;
+  height: 50vh;
+}
+
+#restaurants-container {
+  width: 100%;
+}
+
+.filter-options {
+  width: 100%;
+  display: inline-flex;
+  background-color: #3397DB;
+  height: 50px;
+}
+
+.dropbtn {
+  font-size: 20px;
+}
+
+option {
+  padding: 5px 5px;
+  font-size: 16px;
+}
+
+.restaurant-box {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 80%;
+  height: 250px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.restaurant-img, .restaurant-info {
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+
+@media only screen and (min-width: 800px) {
+  .filter-options {
+    display: block;
+    text-align: left;
+  }
+
+  .restaurant-box {
+    width: 35%;
+    height: 420px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .restaurant-img, .restaurant-info {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .restaurant-img {
+    height:  270px;
+  }
+
+  .restaurant-info {
+    height:  150px;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  body {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media only screen and (min-width: 2000px) {
+  body {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
