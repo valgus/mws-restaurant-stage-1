@@ -148,9 +148,18 @@ class DBHelper {
 
   /**
    * Restaurant image URL.
+   * if is small image, return image with low resolution, otherwise with medium
    */
-  static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+  static imageUrlForRestaurant(restaurant, isSmallImage, forMainPage) {
+    if (isSmallImage && forMainPage) {
+      return (`/img/${restaurant.id}-small.jpg`);
+    }
+    if (!isSmallImage && forMainPage || isSmallImage && !forMainPage) {
+      return (`/img/${restaurant.id}-medium.jpg`);
+    }
+
+    return (`/img/${restaurant.id}-large.jpg`);
+
   }
 
   /**

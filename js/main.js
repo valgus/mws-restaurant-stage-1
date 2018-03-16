@@ -151,7 +151,8 @@ createRestaurantHTML = (restaurant) => {
   li.className = 'restaurant-box';
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.src = DBHelper.imageUrlForRestaurant(restaurant, true, true);
+  image.srcset = DBHelper.imageUrlForRestaurant(restaurant, true, true).concat(" 1x, ").concat(DBHelper.imageUrlForRestaurant(restaurant, false, true)).concat(" 2x");
   li.append(image);
 
   const restaurantInfo = document.createElement('div');
