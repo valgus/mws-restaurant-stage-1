@@ -15,7 +15,7 @@
 .filter-options {
   width: 100%;
   display: inline-flex;
-  background-color: #3397DB;
+  background-color: #26f;
   height: 50px;
 }
 
@@ -32,15 +32,25 @@ option {
   display: inline-flex;
   flex-wrap: wrap;
   width: 80%;
-  height: 250px;
+  height: 400px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .restaurant-img, .restaurant-info {
-  width: 40%;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
+}
+
+@media only screen and (min-width: 500px) {
+  .restaurant-img, .restaurant-info {
+    width: 49%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .restaurant-box {
+    height: 250px;
+  }
 }
 
 

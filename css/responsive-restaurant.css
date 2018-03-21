@@ -12,6 +12,10 @@
   width: 100%;
 }
 
+#breadcrumb {
+  width: 100%;
+}
+
 @media only screen and (min-width: 1000px) {
   #restaurant-container {
     display:flex;
@@ -24,5 +28,9 @@
 
   .restaurant-general, .restaurant-details {
     width: 50%;
+  }
+
+  #breadcrumb {
+    width: 40%;
   }
 }

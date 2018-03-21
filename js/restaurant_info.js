@@ -51,11 +51,15 @@ fetchRestaurantFromURL = (callback) => {
 fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
+  name.setAttribute("aria-label", "Restaurant " + restaurant.name + ". Information");
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.setAttribute("aria-label", "Address: " + restaurant.address);
 
   const image = document.getElementById('restaurant-img');
+  image.alt = "Restaurant: " + restaurant.name;
+  image.title = restaurant.name;
   image.className = 'restaurant-img'
   image.src = DBHelper.imageUrlForRestaurant(restaurant, true, false);
   image.srcset = DBHelper.imageUrlForRestaurant(restaurant, true, false).concat(" 1x, ").concat(DBHelper.imageUrlForRestaurant(restaurant, false, false)).concat(" 2x");
@@ -80,13 +84,15 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const row = document.createElement('tr');
 
     const day = document.createElement('td');
+    day.setAttribute("aria-label", "Day of the week: " + key);
     day.innerHTML = key;
     row.appendChild(day);
 
     const time = document.createElement('td');
     time.innerHTML = operatingHours[key];
+    time.setAttribute("aria-label", "Time for "+ key + "," + operatingHours[key])
     row.appendChild(time);
-
+    row.setAttribute("aria-label", "Working hours: ", + key + "," + operatingHours[key]);
     hours.appendChild(row);
   }
 }

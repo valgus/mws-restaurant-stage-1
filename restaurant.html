@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
   <meta charset="utf-8">
-  <meta name="viewport" content="width: device-width, initial-scale: 1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Main CSS file -->
@@ -14,17 +14,18 @@
 </head>
 
 <body class="inside">
+  <a href="#restaurant-container" class="skip-link">Skip to main content</a>
   <!-- Beginning header -->
   <header>
     <!-- Beginning nav -->
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
+      <!-- Beginning breadcrumb -->
+      <ol id="breadcrumb" >
+        <li><a href="/">Home</a></li>
+      </ol>
+      <!-- End breadcrumb -->
     </nav>
-    <!-- Beginning breadcrumb -->
-    <ul id="breadcrumb" >
-      <li><a href="/">Home</a></li>
-    </ul>
-    <!-- End breadcrumb -->
     <!-- End nav -->
   </header>
   <!-- End header -->
@@ -33,7 +34,7 @@
   <main id="maincontent">
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map"></div>
+      <div id="map" role="application"></div>
     </section>
     <!-- End map -->
     <!-- Beginning restaurant -->
@@ -45,7 +46,7 @@
       </div>
       <div class="restaurant-details">
         <p id="restaurant-address"></p>
-        <table id="restaurant-hours"></table>
+        <table id="restaurant-hours" aria-label="Working hours"></table>
       </div>
     </section>
     <!-- end restaurant -->

@@ -5,6 +5,19 @@ var map
 var markers = []
 
 /**
+* Set title to iframe used by the Google maps
+*/
+
+const iframes = document.getElementsByTagName('iframe');
+for (const iframe of iframes) {
+  if (window.location.pathname.contains("id=")) {
+    iframe.title = "Map with restaurant"
+  } else {
+    iframe.title = "Map with restaurants";  
+  }
+}
+
+/**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -36,6 +49,8 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
     const option = document.createElement('option');
     option.innerHTML = neighborhood;
     option.value = neighborhood;
+    option.id = "n-" + neighborhood;
+    option.setAttribute("role", "menuitem");
     select.append(option);
   });
 }
@@ -65,6 +80,8 @@ fillCuisinesHTML = (cuisines = self.cuisines) => {
     const option = document.createElement('option');
     option.innerHTML = cuisine;
     option.value = cuisine;
+    option.id = "c-" + cuisine;
+    option.setAttribute("role", "menuitem");
     select.append(option);
   });
 }
@@ -91,15 +108,16 @@ window.initMap = () => {
 updateRestaurants = (updateType) => {
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
-  //close selects
-  cSelect.setAttribute('aria-hidden', true);
-  nSelect.setAttribute('aria-hidden', true);
 
   const cIndex = cSelect.selectedIndex;
   const nIndex = nSelect.selectedIndex;
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
+
+  //set activedescendant
+  cSelect.setAttribute( "aria-activedescendant", cSelect[cIndex].id);
+  nSelect.setAttribute("aria-activedescendant", nSelect[nIndex].id);
 
   if (updateType === 3) {
     document.getElementById('cuisinebutton').innerHTML = "<i class='fas fa-filter'></i> Cuisines: " + cuisine;
@@ -153,6 +171,8 @@ createRestaurantHTML = (restaurant) => {
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant, true, true);
   image.srcset = DBHelper.imageUrlForRestaurant(restaurant, true, true).concat(" 1x, ").concat(DBHelper.imageUrlForRestaurant(restaurant, false, true)).concat(" 2x");
+  image.alt = "Restaurant: " + restaurant.name;
+  image.title = restaurant.name;
   li.append(image);
 
   const restaurantInfo = document.createElement('div');
@@ -171,7 +191,9 @@ createRestaurantHTML = (restaurant) => {
   restaurantInfo.append(address);
 
   const more = document.createElement('a');
+  more.setAttribute("role", "button");
   more.innerHTML = 'View Details';
+  more.setAttribute("aria-label", "View details about " + restaurant.name)
   more.href = DBHelper.urlForRestaurant(restaurant);
   restaurantInfo.append(more);
 
@@ -199,6 +221,7 @@ addMarkersToMap = (restaurants = self.restaurants) => {
 showFilterSelect = (elementId) => {
     const select = document.getElementById(elementId);
     select.removeAttribute('aria-hidden');
+    select.focus();
 }
 
 closeFilterSelect = (elementId) => {
