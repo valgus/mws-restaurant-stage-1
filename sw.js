@@ -13,7 +13,6 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(RESTAURANT_CACHE)
       .then(function(cache) {
-        console.log('Opened cache');
         return cache.addAll(urls);
       })
   );
@@ -29,14 +28,12 @@ self.addEventListener('fetch', (event) => {
           return response;
         }
         const fetchRequest = event.request.clone();
-
         return fetch(fetchRequest).then(
           function(response) {
-            if(!response || response.status !== 200 || response.type !== 'basic') {
+            if(!response || response.status !== 200) {
               return response;
             }
             const responseToCache = response.clone();
-
             caches.open(RESTAURANT_CACHE)
               .then(function(cache) {
                 cache.put(event.request, responseToCache);
@@ -51,3 +48,6 @@ self.addEventListener('fetch', (event) => {
       })
     );
 })
+
+
+//based on the https://developers.google.com/web/fundamentals/primers/service-workers/
