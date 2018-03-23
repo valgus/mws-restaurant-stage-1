@@ -13,7 +13,7 @@ for (const iframe of iframes) {
   if (window.location.pathname.contains("id=")) {
     iframe.title = "Map with restaurant"
   } else {
-    iframe.title = "Map with restaurants";  
+    iframe.title = "Map with restaurants";
   }
 }
 
@@ -167,6 +167,8 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   li.className = 'restaurant-box';
+  li.setAttribute("role", "menuitem");
+  li.setAttribute("aria-label", restaurant.name + " box");
   const image = document.createElement('img');
   image.className = 'restaurant-img';
   image.src = DBHelper.imageUrlForRestaurant(restaurant, true, true);
@@ -178,7 +180,7 @@ createRestaurantHTML = (restaurant) => {
   const restaurantInfo = document.createElement('div');
   restaurantInfo.className = 'restaurant-info';
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   restaurantInfo.append(name);
 

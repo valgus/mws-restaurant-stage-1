@@ -33,8 +33,7 @@ option {
   flex-wrap: wrap;
   width: 80%;
   height: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 10px auto;
 }
 
 .restaurant-img, .restaurant-info {
@@ -63,7 +62,7 @@ option {
   }
 
   .restaurant-box {
-    width: 35%;
+    width: 40%;
     height: 420px;
     margin-left: auto;
     margin-right: auto;
@@ -86,16 +85,29 @@ option {
 
 @media only screen and (min-width: 1000px) {
   body {
-    width: 80%;
+    width: 90%;
     margin-left: auto;
     margin-right: auto;
   }
 }
 
+@media only screen and (min-width: 1500px) {
+
+    .restaurant-box {
+      width: 25%;
+      height: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+}
+
+
 @media only screen and (min-width: 2000px) {
-  body {
-    width: 60%;
-    margin-left: auto;
-    margin-right: auto;
-  }
+
+    .restaurant-box {
+      width: 20%;
+      height: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 }

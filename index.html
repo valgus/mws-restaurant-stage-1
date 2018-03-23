@@ -13,32 +13,32 @@
 
 <body>
   <a href="#restaurants-container" class="skip-link">Skip to main content</a>
-  <header>
+  <header role="banner">
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
-  <main id="maincontent">
+  <main id="maincontent" role="main">
     <section id="map-container">
       <div id="map" role="application"></div>
     </section>
     <section id="restaurants-container">
       <div class="filter-options">
         <div class="dropdown" role="listbox">
-          <button class="dropbtn" id="neighborhoodbutton" onclick="showFilterSelect('neighborhoods-select')" aria-haspopup="true"><i class="fas fa-filter"></i> Location</button>
+          <button class="dropbtn" id="neighborhoodbutton" onclick="showFilterSelect('neighborhoods-select')" aria-haspopup="true" aria-label="Location Filter"><i class="fas fa-filter"></i> Location</button>
           <select id="neighborhoods-select" aria-hidden="true" tabindex="-1" role="menu" aria-activedescendant="n-all" class="dropdown-content" name="neighborhoods" onchange="updateRestaurants(2)"  onblur="closeFilterSelect('neighborhoods-select')" onmouseleave="closeFilterSelect('neighborhoods-select')">
             <option value="all" id="n-all" class="focused" role="menuitem">All Neighborhoods</option>
           </select>
         </div>
 
         <div class="dropdown" role="listbox">
-          <button class="dropbtn" id="cuisinebutton" onclick="showFilterSelect('cuisines-select')" aria-haspopup="true"><i class="fas fa-filter"></i> Cuisines</button>
+          <button class="dropbtn" id="cuisinebutton" onclick="showFilterSelect('cuisines-select')" aria-haspopup="true" aria-label="Cuisines Filter"><i class="fas fa-filter"></i> Cuisines</button>
           <select id="cuisines-select" aria-hidden="true" tabindex="-1" role="menu" aria-activedescendant="n-all" class="dropdown-content" name="cuisines" onchange="updateRestaurants(3)"  onblur="closeFilterSelect('cuisines-select')" onmouseleave="closeFilterSelect('cuisines-select')">
             <option value="all" id="с-all" class="focused" role="menuitem">All Cuisines</option>
           </select>
         </div>
       </div>
-      <ul id="restaurants-list" role="presentation"></ul>
+      <ul id="restaurants-list" role="menu"></ul>
     </section>
   </main>
 
@@ -47,7 +47,7 @@
   <script charset="utf-8" src="js/swregister.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5GQIO1bZ2BBi-eXus5TdrjhBD2S_xRmw&libraries=places&callback=initMap"></script>
 
-  <footer id="footer">
+  <footer id="footer" role="contentinfo">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
 
