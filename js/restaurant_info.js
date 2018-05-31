@@ -15,7 +15,7 @@ window.initMap = () => {
         scrollwheel: false
       });
       fillBreadcrumb();
-      DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
+      RequestHelper.mapMarkerForRestaurant(self.restaurant, self.map);
     }
   });
 }
@@ -33,7 +33,7 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
-    DBHelper.fetchRestaurantById(id, (error, restaurant) => {
+    RequestHelper.fetchRestaurantById(id, (error, restaurant) => {
       self.restaurant = restaurant;
       if (!restaurant) {
         console.error(error);
@@ -61,8 +61,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   image.alt = "Restaurant: " + restaurant.name;
   image.title = restaurant.name;
   image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant, true, false);
-  image.srcset = DBHelper.imageUrlForRestaurant(restaurant, true, false).concat(" 1x, ").concat(DBHelper.imageUrlForRestaurant(restaurant, false, false)).concat(" 2x");
+  image.src = RequestHelper.imageUrlForRestaurant(restaurant, true, false);
+  image.srcset = RequestHelper.imageUrlForRestaurant(restaurant, true, false).concat(" 1x, ").concat(RequestHelper.imageUrlForRestaurant(restaurant, false, false)).concat(" 2x");
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;

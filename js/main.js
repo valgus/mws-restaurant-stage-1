@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods((error, neighborhoods) => {
+  RequestHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
       console.error(error);
     } else {
@@ -59,7 +59,7 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
  * Fetch all cuisines and set their HTML.
  */
 fetchCuisines = () => {
-  DBHelper.fetchCuisines((error, cuisines) => {
+  RequestHelper.fetchCuisines((error, cuisines) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
@@ -125,7 +125,7 @@ updateRestaurants = (updateType) => {
     document.getElementById('neighborhoodbutton').innerHTML = "<i class='fas fa-filter'></i> Location: " + neighborhood;
   }
 
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
+  RequestHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
     if (error) { // Got an error!
       console.error(error);
     } else {
@@ -171,8 +171,8 @@ createRestaurantHTML = (restaurant) => {
   li.setAttribute("aria-label", restaurant.name + " box");
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant, true, true);
-  image.srcset = DBHelper.imageUrlForRestaurant(restaurant, true, true).concat(" 1x, ").concat(DBHelper.imageUrlForRestaurant(restaurant, false, true)).concat(" 2x");
+  image.src = RequestHelper.imageUrlForRestaurant(restaurant, true, true);
+  image.srcset = RequestHelper.imageUrlForRestaurant(restaurant, true, true).concat(" 1x, ").concat(RequestHelper.imageUrlForRestaurant(restaurant, false, true)).concat(" 2x");
   image.alt = "Restaurant: " + restaurant.name;
   image.title = restaurant.name;
   li.append(image);
@@ -196,7 +196,7 @@ createRestaurantHTML = (restaurant) => {
   more.setAttribute("role", "button");
   more.innerHTML = 'View Details';
   more.setAttribute("aria-label", "View details about " + restaurant.name)
-  more.href = DBHelper.urlForRestaurant(restaurant);
+  more.href = RequestHelper.urlForRestaurant(restaurant);
   restaurantInfo.append(more);
 
   li.append(restaurantInfo);
@@ -209,7 +209,7 @@ createRestaurantHTML = (restaurant) => {
 addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
+    const marker = RequestHelper.mapMarkerForRestaurant(restaurant, self.map);
     google.maps.event.addListener(marker, 'click', () => {
       window.location.href = marker.url
     });
