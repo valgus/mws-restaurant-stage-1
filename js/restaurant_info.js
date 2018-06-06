@@ -1,6 +1,7 @@
 let restaurant;
 var map;
 
+
 /**
  * Initialize Google map, called from HTML.
  */
@@ -33,15 +34,14 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL'
     callback(error, null);
   } else {
-    RequestHelper.fetchRestaurantById(id, (error, restaurant) => {
-      self.restaurant = restaurant;
-      if (!restaurant) {
-        console.error(error);
-        return;
-      }
-      fillRestaurantHTML();
-      callback(null, restaurant)
-    });
+      RequestHelper.fetchRestaurantById(id, (error, restaurant) => {
+        if (error) {
+          callback(error)
+        }
+        self.restaurant = restaurant;
+        fillRestaurantHTML();
+        callback(null, restaurant);
+      });
   }
 }
 

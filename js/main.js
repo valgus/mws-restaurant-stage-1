@@ -21,14 +21,14 @@ for (const iframe of iframes) {
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  fetchNeighborhoods();
+  fetchAllNeighborhoods();
   fetchCuisines();
 });
 
 /**
  * Fetch all neighborhoods and set their HTML.
  */
-fetchNeighborhoods = () => {
+fetchAllNeighborhoods = () => {
   RequestHelper.fetchNeighborhoods((error, neighborhoods) => {
     if (error) { // Got an error
       console.error(error);
@@ -170,9 +170,10 @@ createRestaurantHTML = (restaurant) => {
   li.setAttribute("role", "menuitem");
   li.setAttribute("aria-label", restaurant.name + " box");
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = RequestHelper.imageUrlForRestaurant(restaurant, true, true);
-  image.srcset = RequestHelper.imageUrlForRestaurant(restaurant, true, true).concat(" 1x, ").concat(RequestHelper.imageUrlForRestaurant(restaurant, false, true)).concat(" 2x");
+  image.className = 'restaurant-img lazy';
+  image.src = "img/spinner.gif"
+  image.setAttribute("data-src", RequestHelper.imageUrlForRestaurant(restaurant, true, true));
+  image.setAttribute("data-srcset", RequestHelper.imageUrlForRestaurant(restaurant, true, true).concat(" 1x, ").concat(RequestHelper.imageUrlForRestaurant(restaurant, false, true)).concat(" 2x"));
   image.alt = "Restaurant: " + restaurant.name;
   image.title = restaurant.name;
   li.append(image);

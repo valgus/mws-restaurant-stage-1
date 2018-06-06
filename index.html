@@ -6,8 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/responsive-index.css">
+  <link rel="stylesheet" href="css/all.css">
   <title>Restaurant Reviews</title>
 </head>
 
@@ -41,16 +40,36 @@
       <ul id="restaurants-list" role="menu"></ul>
     </section>
   </main>
-
-  <script charset="utf-8" src="js/requesthelper.js"></script>
-  <script charset="utf-8" src="js/main.js"></script>
-  <script charset="utf-8" src="js/swregister.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5GQIO1bZ2BBi-eXus5TdrjhBD2S_xRmw&libraries=places&callback=initMap"></script>
-
   <footer id="footer" role="contentinfo">
     Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
   </footer>
-
+  <script defer charset="utf-8" src="dist/js/swregister.js"></script>
+  <script defer src="./node_modules/idb/lib/idb.js"></script>
+  <script defer charset="utf-8" src="dist/js/dbhelper.js"></script>
+  <script defer charset="utf-8" src="dist/js/requesthelper.js"></script>
+  <script defer charset="utf-8" src="dist/js/main.js"></script>
+  <script defer>
+    window.onload =  function setImages() {
+      const images = [].slice.call(document.querySelectorAll("img.lazy"));
+      if ("IntersectionObserver" in window) {
+        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              let lazyImage = entry.target;
+              lazyImage.src = lazyImage.dataset.src;
+              lazyImage.srcset = lazyImage.dataset.srcset;
+              lazyImage.classList.remove("lazy");
+              lazyImageObserver.unobserve(lazyImage);
+            }
+          });
+        });
+        images.forEach(function(lazyImage) {
+          lazyImageObserver.observe(lazyImage);
+        });
+      }
+    };
+  </script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA5GQIO1bZ2BBi-eXus5TdrjhBD2S_xRmw&libraries=places&callback=initMap"></script>
 </body>
 
 </html>

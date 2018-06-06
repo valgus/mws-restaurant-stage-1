@@ -1,3 +1,12 @@
+//db Promise to manage requests to the IndexDb
+const dbPromise = (!('indexDB') in window) ? null :
+   idb.open('restaurants-db', 1, (upgradeDb) => {
+    if (!upgradeDb.objectStoreNames.contains('info')) {
+      upgradeDb.createObjectStore('info', {keyPath: 'id'});
+    }
+  });
+
+
 /**
  * functions to the server.
  */
@@ -15,15 +24,27 @@ class RequestHelper {
     fetch(RequestHelper.SERVER_URL+'/restaurants').then((response) => {
       if (response.ok) {
         response.json().then(restaurants => {
-          return callback(null, restaurants);
+          //save all restaurants info in the IndexDB
+          IndexDBHelper.getRestaurants(dbPromise, (error, storedRestaurants) => {
+            //obtain all restaurants that were not saved yet in the IndexDb
+            const notSavedRestaurants = restaurants.filter(restaurant => !storedRestaurants.some(storedRestaurant => storedRestaurant.id === restaurant.id ));
+            for (const notSavedRestaurant of notSavedRestaurants) {
+              IndexDBHelper.addRestaurant(notSavedRestaurant, dbPromise, (err) => {})
+            }
+            console.log(notSavedRestaurants);
+            return callback(null, restaurants);
+          });
         });
       } else {// Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${response.status}`);
         callback(error, null);
       }
     }).catch((e) => {
-      const error = (`Request failed. Error: ${e.message}`);
-      callback(error, null);
+      //in case of Error, obtain all restaurants from IndexDB
+      //save all restaurants info in the IndexDB
+      IndexDBHelper.getRestaurants(dbPromise, (error, storedRestaurants) => {
+        callback(error, storedRestaurants);
+      });
     });
   }
 
@@ -31,22 +52,32 @@ class RequestHelper {
    * Fetch a restaurant by its ID.
    */
   static fetchRestaurantById(id, callback) {
-    fetch(RequestHelper.SERVER_URL+`/restaurants/${id}`).then((response) => {
-      if (response.ok) {
-        response.json().then(restaurant => {
-          console.log(restaurant);
-          if (!restaurant) {
-            return callback('Restaurant does not exist', null);
+    //check whether indexDB has this restaurant
+    IndexDBHelper.getRestaurant(id, dbPromise, (err, restaurant) => {
+      if(err || !restaurant) {
+        fetch(RequestHelper.SERVER_URL+`/restaurants/${id}`).then((response) => {
+          if (response.ok) {
+            response.json().then(restaurant => {
+              console.log(restaurant);
+              if (!restaurant) {
+                return callback('Restaurant does not exist', null);
+              }
+              //add restaurant in case of its lack in the IndexDB
+              IndexDBHelper.addRestaurant(restaurant, dbPromise, (err) => {
+                return callback(null, restaurant);
+              });
+            });
+          } else {// Oops!. Got an error from server.
+            const error = (`Request failed. Returned status of ${response.status}`);
+            callback(error, null);
           }
-          return callback(null, restaurant);
+        }).catch((e) => {
+          const error = (`Request failed. Error: ${e.message}`);
+          callback(error, null);
         });
-      } else {// Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${response.status}`);
-        callback(error, null);
+      } else {
+        callback(null, restaurant);
       }
-    }).catch((e) => {
-      const error = (`Request failed. Error: ${e.message}`);
-      callback(error, null);
     });
   }
 
